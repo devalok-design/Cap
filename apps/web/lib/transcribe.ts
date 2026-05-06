@@ -101,13 +101,18 @@ export async function transcribeVideo(
 	}
 
 	const upload = await db()
-		.select({ phase: videoUploads.phase })
+		.select({
+			phase: videoUploads.phase,
+			uploaded: videoUploads.uploaded,
+			total: videoUploads.total,
+		})
 		.from(videoUploads)
 		.where(eq(videoUploads.videoId, videoId))
 		.limit(1);
 
 	if (
-		upload[0]?.phase === "uploading" ||
+		(upload[0]?.phase === "uploading" &&
+			(upload[0]?.uploaded ?? 0) < (upload[0]?.total ?? 1)) ||
 		upload[0]?.phase === "processing" ||
 		upload[0]?.phase === "generating_thumbnail"
 	) {
