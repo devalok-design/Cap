@@ -8,7 +8,6 @@ import {
 import { serverEnv } from "@cap/env";
 import type { Video } from "@cap/web-domain";
 import { eq } from "drizzle-orm";
-import { start } from "workflow/api";
 import { transcribeVideoWorkflow } from "@/workflows/transcribe";
 
 type TranscribeResult = {
@@ -127,13 +126,26 @@ export async function transcribeVideo(
 			`[transcribeVideo] Triggering transcription workflow for video ${videoId}`,
 		);
 
-		await start(transcribeVideoWorkflow, [
-			{
-				videoId,
-				userId,
-				aiGenerationEnabled,
-			},
-		]);
+		// Set PROCESSING immediately so polling stops while the workflow runs.
+		// workflow@4.2.0-beta.73 start() relies on VERCEL_URL for self-callbacks
+		// which doesn't exist on Railway, so we call the workflow fn directly.
+		await db()
+			.update(videos)
+			.set({ transcriptionStatus: "PROCESSING" })
+			.where(eq(videos.id, videoId));
+
+		transcribeVideoWorkflow({
+			videoId,
+			userId,
+			aiGenerationEnabled,
+		}).catch((error) => {
+			console.error("[transcribeVideo] Workflow execution failed:", error);
+			db()
+				.update(videos)
+				.set({ transcriptionStatus: null })
+				.where(eq(videos.id, videoId))
+				.catch(() => {});
+		});
 
 		return {
 			success: true,
