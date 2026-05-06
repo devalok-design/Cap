@@ -79,37 +79,9 @@ export function buildCanView(
 				return false;
 			}
 
-			const allowedEmails = yield* orgsRepo.allowedEmailDomain(video.orgId);
-			const restriction = Option.isSome(allowedEmails)
-				? allowedEmails.value.trim()
-				: "";
-
-			if (restriction.length > 0) {
-				if (Option.isNone(user)) {
-					yield* Effect.log(
-						"Email access restriction active and user not logged in. Access denied.",
-					);
-					yield* Effect.fail(
-						new Policy.PolicyDeniedError({
-							reason: "email_restriction_login_required",
-						}),
-					);
-				}
-				if (
-					Option.isSome(user) &&
-					!isEmailAllowedByRestriction(user.value.email, restriction)
-				) {
-					yield* Effect.log("Email access restriction active. Access denied.");
-					yield* Effect.fail(
-						new Policy.PolicyDeniedError({
-							reason: "email_restriction_denied",
-						}),
-					);
-				}
-			}
-
+			// video.public === true ("Anyone with link") — org email restriction does
+			// not apply. The owner explicitly made this video public.
 			yield* Video.verifyPassword(video, password);
-
 			return true;
 		}),
 	);
