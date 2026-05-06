@@ -335,7 +335,7 @@ export default async function ShareVideoPage(props: PageProps<"/s/[videoId]">) {
 						organizationId: sharedVideos.organizationId,
 					},
 					orgSettings: organizations.settings,
-					hasActiveUpload: sql`${videoUploads.phase} IN ('uploading', 'processing', 'generating_thumbnail')`.mapWith(
+					hasActiveUpload: sql`(${videoUploads.phase} IN ('processing', 'generating_thumbnail') OR (${videoUploads.phase} = 'uploading' AND ${videoUploads.uploaded} < ${videoUploads.total}))`.mapWith(
 						Boolean,
 					),
 					owner: users,
