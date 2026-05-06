@@ -50,7 +50,12 @@ export async function proxy(request: NextRequest) {
 				path.startsWith("/invite") ||
 				path.startsWith("/self-hosting") ||
 				path.startsWith("/terms") ||
+				path.startsWith("/privacy") ||
 				path.startsWith("/verify-otp") ||
+				path.startsWith("/admin") ||
+				path.startsWith("/dev") ||
+				path.startsWith("/messenger") ||
+				path.startsWith("/docs") ||
 				/\.[a-z0-9]+$/i.test(path)
 			) &&
 			process.env.NODE_ENV !== "development"
