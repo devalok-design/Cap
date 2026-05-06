@@ -6,7 +6,7 @@ import type { VideoMetadata } from "@cap/database/types";
 import { serverEnv } from "@cap/env";
 import { provideOptionalAuth, VideosPolicy } from "@cap/web-backend";
 import { Policy, type Video } from "@cap/web-domain";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, or, sql } from "drizzle-orm";
 import { Effect, Exit } from "effect";
 import { startAiGeneration } from "@/lib/generate-ai";
 import * as EffectRuntime from "@/lib/server";
@@ -63,11 +63,13 @@ export async function getVideoStatus(
 			.where(
 				and(
 					eq(videoUploads.videoId, videoId),
-					inArray(videoUploads.phase, [
-						"uploading",
-						"processing",
-						"generating_thumbnail",
-					]),
+					or(
+						inArray(videoUploads.phase, ["processing", "generating_thumbnail"]),
+						and(
+							eq(videoUploads.phase, "uploading"),
+							sql`${videoUploads.uploaded} < ${videoUploads.total}`,
+						),
+					),
 				),
 			)
 			.limit(1);
