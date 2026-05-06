@@ -7,13 +7,13 @@ import { Layer, Logger } from "effect";
 
 import { DatabaseLive, ShardDatabaseLive } from "./shared/database.ts";
 
+const shardManagerHost = Deno.env.get("SHARD_MANAGER_HOST") ?? "0.0.0.0";
+const shardManagerAddress = `${shardManagerHost}:8080`;
+
 NodeClusterShardManagerSocket.layer({
 	storage: "sql",
 	shardingConfig: {
-		shardManagerAddress: RunnerAddress.make({
-			host: "0.0.0.0",
-			port: 8080,
-		}),
+		shardManagerAddress: RunnerAddress.make(shardManagerAddress),
 	},
 }).pipe(
 	Layer.provide(ShardDatabaseLive),
