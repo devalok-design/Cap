@@ -131,7 +131,6 @@ export async function transcribeVideo(
 	if (
 		(upload[0]?.phase === "uploading" &&
 			(upload[0]?.uploaded ?? 0) < (upload[0]?.total ?? 1)) ||
-		upload[0]?.phase === "processing" ||
 		upload[0]?.phase === "generating_thumbnail"
 	) {
 		return {
