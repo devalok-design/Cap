@@ -135,7 +135,8 @@ export async function getVideoStatus(
 
 	const shouldTriggerAiGeneration =
 		video.transcriptionStatus === "COMPLETE" &&
-		!metadata.aiGenerationStatus &&
+		(!metadata.aiGenerationStatus ||
+			metadata.aiGenerationStatus === "QUEUED") &&
 		!metadata.summary &&
 		(serverEnv().GROQ_API_KEY || serverEnv().OPENAI_API_KEY);
 

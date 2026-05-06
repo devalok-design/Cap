@@ -53,7 +53,8 @@ export async function POST(
 		const canRetry =
 			!metadata.aiGenerationStatus ||
 			metadata.aiGenerationStatus === "ERROR" ||
-			metadata.aiGenerationStatus === "SKIPPED";
+			metadata.aiGenerationStatus === "SKIPPED" ||
+			metadata.aiGenerationStatus === "QUEUED";
 
 		if (!canRetry) {
 			return Response.json(

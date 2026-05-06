@@ -510,10 +510,7 @@ export async function startAiGeneration(
 
 	const metadata = (video.metadata as VideoMetadata) || {};
 
-	if (
-		metadata.aiGenerationStatus === "PROCESSING" ||
-		metadata.aiGenerationStatus === "QUEUED"
-	) {
+	if (metadata.aiGenerationStatus === "PROCESSING") {
 		return {
 			success: true,
 			message: "AI generation already in progress",
