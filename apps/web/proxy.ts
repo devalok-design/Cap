@@ -56,6 +56,7 @@ export async function proxy(request: NextRequest) {
 				path.startsWith("/dev") ||
 				path.startsWith("/messenger") ||
 				path.startsWith("/docs") ||
+				path.startsWith("/.well-known/") ||
 				/\.[a-z0-9]+$/i.test(path)
 			) &&
 			process.env.NODE_ENV !== "development"
