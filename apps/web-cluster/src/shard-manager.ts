@@ -10,10 +10,7 @@ import { DatabaseLive, ShardDatabaseLive } from "./shared/database.ts";
 NodeClusterShardManagerSocket.layer({
 	storage: "sql",
 	shardingConfig: {
-		shardManagerAddress: RunnerAddress.make({
-			host: "0.0.0.0",
-			port: 8080,
-		}),
+		shardManagerAddress: RunnerAddress.make("0.0.0.0", 8080),
 	},
 }).pipe(
 	Layer.provide(ShardDatabaseLive),
