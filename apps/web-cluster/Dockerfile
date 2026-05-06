@@ -25,4 +25,5 @@ EXPOSE 8080
 EXPOSE 42069
 EXPOSE 42169
 
-CMD ["deno", "run", "--allow-all", "src/runner/index.ts"]
+ENV CLUSTER_ENTRY=src/runner/index.ts
+CMD sh -c "deno run --allow-all $CLUSTER_ENTRY"
