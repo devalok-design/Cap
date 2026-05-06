@@ -21,8 +21,8 @@ COPY --from=builder --chown=deno:deno /app/out /app
 
 USER deno
 
-ENTRYPOINT ["deno", "run", "--allow-all"]
-
 EXPOSE 8080
 EXPOSE 42069
 EXPOSE 42169
+
+CMD ["deno", "run", "--allow-all", "src/runner/index.ts"]
