@@ -12,6 +12,9 @@ class EcsContainerMetadata extends Effect.Service<EcsContainerMetadata>()(
 				metadataUri: yield* Config.option(
 					Config.string("ECS_CONTAINER_METADATA_URI_V4"),
 				),
+				runnerHostOverride: yield* Config.option(
+					Config.string("RUNNER_HOST"),
+				),
 			};
 		}),
 	},
@@ -42,20 +45,25 @@ export class ContainerMetadata extends Effect.Service<ContainerMetadata>()(
 	{
 		effect: Effect.gen(function* () {
 			const containerMetadata = yield* EcsContainerMetadata;
-			const metadataUri = containerMetadata.metadataUri;
-			const ipAddress = yield* Option.match(metadataUri, {
-				onNone: () => Effect.succeed("0.0.0.0"),
-				onSome: (uri) =>
-					Effect.tryPromise({
-						try: async () => {
-							const response = await fetch(`${uri}/task`);
-							const data = await response.json();
-							return data.Containers[0].Networks[0].IPv4Addresses[0] as string;
-						},
-						catch: (error) => {
-							console.error("error", error);
-							return new FetchIpError();
-						},
+			const { metadataUri, runnerHostOverride } = containerMetadata;
+			const ipAddress = yield* Option.match(runnerHostOverride, {
+				onSome: (host) => Effect.succeed(host),
+				onNone: () =>
+					Option.match(metadataUri, {
+						onNone: () => Effect.succeed("0.0.0.0"),
+						onSome: (uri) =>
+							Effect.tryPromise({
+								try: async () => {
+									const response = await fetch(`${uri}/task`);
+									const data = await response.json();
+									return data.Containers[0].Networks[0]
+										.IPv4Addresses[0] as string;
+								},
+								catch: (error) => {
+									console.error("error", error);
+									return new FetchIpError();
+								},
+							}),
 					}),
 			});
 
