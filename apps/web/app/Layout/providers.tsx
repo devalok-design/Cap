@@ -37,6 +37,7 @@ export function PostHogProvider({
 		if (!host) return undefined;
 		const base = {
 			api_host: host,
+			ui_host: "https://eu.posthog.com",
 			capture_pageview: false,
 			capture_pageleave: true,
 			bootstrap: initialBootstrap.current?.distinctID
