@@ -46,6 +46,7 @@ export async function proxy(request: NextRequest) {
 				path.startsWith("/s/") ||
 				path.startsWith("/c/") ||
 				path.startsWith("/cli/") ||
+				path.startsWith("/embed/") ||
 				path.startsWith("/middleware") ||
 				path.startsWith("/dashboard") ||
 				path.startsWith("/onboarding") ||
@@ -56,9 +57,14 @@ export async function proxy(request: NextRequest) {
 				path.startsWith("/self-hosting") ||
 				path.startsWith("/download") ||
 				path.startsWith("/terms") ||
+				path.startsWith("/privacy") ||
 				path.startsWith("/verify-otp") ||
-				path.startsWith("/embed/") ||
-				path.startsWith("/.well-known/workflow/")
+				path.startsWith("/admin") ||
+				path.startsWith("/dev") ||
+				path.startsWith("/messenger") ||
+				path.startsWith("/docs") ||
+				path.startsWith("/.well-known/") ||
+				/\.[a-z0-9]+$/i.test(path)
 			) &&
 			process.env.NODE_ENV !== "development"
 		)

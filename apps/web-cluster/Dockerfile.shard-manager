@@ -23,6 +23,5 @@ USER deno
 
 EXPOSE 8080
 EXPOSE 42069
-EXPOSE 42169
 
-CMD ["deno", "run", "--allow-all", "src/runner/index.ts"]
+CMD ["deno", "run", "--allow-all", "src/shard-manager.ts"]
