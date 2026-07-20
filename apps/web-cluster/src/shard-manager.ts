@@ -1,3 +1,4 @@
+import { RunnerAddress } from "@effect/cluster";
 import {
 	NodeClusterShardManagerSocket,
 	NodeRuntime,
@@ -8,6 +9,9 @@ import { DatabaseLive, ShardDatabaseLive } from "./shared/database.ts";
 
 NodeClusterShardManagerSocket.layer({
 	storage: "sql",
+	shardingConfig: {
+		shardManagerAddress: RunnerAddress.make("0.0.0.0", 8080),
+	},
 }).pipe(
 	Layer.provide(ShardDatabaseLive),
 	Layer.provide(DatabaseLive),

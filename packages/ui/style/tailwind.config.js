@@ -74,7 +74,19 @@ module.exports = (__app, _options) => {
 				colors: {
 					gray: getColorScale("gray"),
 					"gray-a": getColorScale("gray-a", true),
-					blue: getColorScale("blue"),
+					blue: {
+						...getColorScale("blue"),
+						50: "#FBEEF2",
+						100: "#F7DEE6",
+						200: "#EFBDCC",
+						300: "#E694AC",
+						400: "#DC6A8C",
+						500: "#D54D76",
+						600: "#D33163",
+						700: "#B8284F",
+						800: "#912243",
+						900: "#6B1932",
+					},
 					border: "hsl(var(--border))",
 					input: "hsl(var(--input))",
 					ring: "hsl(var(--ring))",
@@ -136,8 +148,8 @@ module.exports = (__app, _options) => {
 						40: "rgba(255,255,255,0.4)",
 					},
 					"blue-transparent": {
-						10: "rgba(34,64,122,0.1)",
-						20: "rgba(34,64,122,0.2)",
+						10: "rgba(211,49,99,0.1)",
+						20: "rgba(211,49,99,0.2)",
 					},
 					red: {
 						50: "#FFEBEE",

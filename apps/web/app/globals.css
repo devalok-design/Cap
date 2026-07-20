@@ -3,22 +3,23 @@
 @import "@radix-ui/colors/gray.css";
 @import "@radix-ui/colors/gray-alpha.css";
 @import "@radix-ui/colors/gray-dark.css";
-@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/crimson-dark.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-	--primary: #005cb1;
-	--primary-2: #004c93;
-	--primary-3: #003b73;
-	--secondary: #2eb4ff;
-	--secondary-2: #1696e0;
-	--secondary-3: #117ebd;
-	--tertiary: #c5eaff;
-	--tertiary-2: #d3e5ff;
-	--tertiary-3: #e0edff;
+	--primary: #d33163;
+	--primary-2: #b8284f;
+	--primary-3: #912243;
+	--secondary: #f07ba0;
+	--secondary-2: #d33163;
+	--secondary-3: #b8284f;
+	--tertiary: #ffd5e2;
+	--tertiary-2: #ffdce8;
+	--tertiary-3: #ffe8f0;
 	--filler: #efefef;
 	--filler-2: #e4e4e4;
 	--filler-3: #e2e2e2;
@@ -32,6 +33,18 @@
 	--background-start-rgb: 214, 219, 220;
 	--background-end-rgb: 255, 255, 255;
 	--gradient-border-radius: 12px;
+	--blue-1: var(--crimson-1);
+	--blue-2: var(--crimson-2);
+	--blue-3: var(--crimson-3);
+	--blue-4: var(--crimson-4);
+	--blue-5: var(--crimson-5);
+	--blue-6: var(--crimson-6);
+	--blue-7: var(--crimson-7);
+	--blue-8: var(--crimson-8);
+	--blue-9: var(--crimson-9);
+	--blue-10: var(--crimson-10);
+	--blue-11: var(--crimson-11);
+	--blue-12: var(--crimson-12);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -150,7 +163,7 @@ html {
 	:where(blockquote p:first-of-type):not(
 		:where([class~="not-prose"], [class~="not-prose"] *)
 	)::before {
-	content: "“";
+	content: "\201c";
 	display: none;
 }
 
@@ -381,7 +394,7 @@ label {
 	inset: 0;
 	padding: 1px;
 	border-radius: 100px;
-	background: linear-gradient(to bottom, #446fae 20%, transparent 90%);
+	background: linear-gradient(to bottom, #b8284f 20%, transparent 90%);
 	-webkit-mask:
 		linear-gradient(#fff 0 0) content-box,
 		linear-gradient(#fff 0 0);
