@@ -111,7 +111,7 @@
 		"media-chrome": "^4.12.0",
 		"moment": "^2.30.1",
 		"motion": "^12.18.1",
-		"next": "16.2.1",
+		"next": "16.2.11",
 		"next-auth": "^4.24.5",
 		"next-mdx-remote": "^6.0.0",
 		"posthog-js": "^1.215.3",
